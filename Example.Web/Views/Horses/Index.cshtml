@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Example.Web.Models.HorseSummary>
+@{
+    ViewBag.Title = "Horses";
+}
+<h3>@ViewBag.Message</h3>
+
+@if (Model != null)
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="col-md-2">Name</th>
+                <th class="col-md-1">Starts</th>
+                <th class="col-md-1">Win</th>
+                <th class="col-md-1">Place</th>
+                <th class="col-md-1">Show</th>
+                <th class="col-md-1">Earnings</th>
+                <th class="col-md-5">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Starts)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Win)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Place)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Show)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Earnings)
+                    </td>
+                    <td>
+                        <a asp-controller="Horses" asp-action="Detail" asp-route-id="@item.Id">Default</a>
+                        |
+                        <a asp-controller="ResponseCached" asp-action="Detail" asp-route-id="@item.Id">Client Cached</a>
+                        |
+                        <a asp-controller="ServiceCached" asp-action="Detail" asp-route-id="@item.Id">Service Cached</a>
+                        |
+                        <a asp-controller="RepositoryCached" asp-action="Detail" asp-route-id="@item.Id">Repository Cached</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

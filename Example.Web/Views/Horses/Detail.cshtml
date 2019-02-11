@@ -1,0 +1,73 @@
+﻿@model Example.Web.Models.HorseDetail
+@{
+    ViewBag.Title = Model.Name;
+}
+<h3>@ViewBag.Message</h3>
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="well">
+                <h3>Statistics</h3>
+                <table class="table table-condensed">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Name)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Starts)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Starts)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Win)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Win)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Place)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Place)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Show)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Show)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Earnings)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Earnings)
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <img src="~/images/FailDonkey.gif" width="300"/>
+        </div>
+    </div>
+}
