@@ -1,4 +1,5 @@
-﻿using Example.Services.Interfaces;
+﻿using System;
+using Example.Services.Interfaces;
 using Example.Web.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -22,7 +23,11 @@ namespace Example.Web.Controllers
 
         public ActionResult Index()
         {
+            Console.WriteLine($"Getting all horses - {DateTime.UtcNow}");
+
             var horses = _horseService.GetAll();
+
+            Console.WriteLine($"Mapping all horses - {DateTime.UtcNow}");
 
             var model = horses.Select(_horseSummaryMapper.Map).ToList();
 
