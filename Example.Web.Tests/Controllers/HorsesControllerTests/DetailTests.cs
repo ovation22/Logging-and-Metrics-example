@@ -4,6 +4,7 @@ using Example.Web.Controllers;
 using Example.Web.Mappers;
 using Example.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -19,13 +20,17 @@ namespace Example.Web.Tests.Controllers.HorsesControllerTests
         {
             _id = 999;
             _horseService = new Mock<IHorseService>();
+            var logger = new Mock<ILogger<HorsesController>>();
 
             var horseToHorseDetailMapper = new HorseToHorseDetailMapper();
             var horseToHorseSummaryMapper = new HorseToHorseSummaryMapper();
 
-            _controller = new HorsesController(_horseService.Object,
-                horseToHorseSummaryMapper,
-                horseToHorseDetailMapper);
+            _controller = new HorsesController(
+                _horseService.Object,
+                logger.Object,
+                horseToHorseDetailMapper,
+                horseToHorseSummaryMapper
+            );
         }
 
         [Fact]
