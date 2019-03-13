@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Example.Web
 {
@@ -34,8 +35,16 @@ namespace Example.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ExampleContext>(options =>
+            services.AddDbContextPool<ExampleContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .WriteTo.MSSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"), "Logs")
+                .WriteTo.Console()
+                .WriteTo.Debug()
+                .CreateLogger();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -59,6 +68,8 @@ namespace Example.Web
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseDeveloperExceptionPage();
 
             app.UseMvc(routes =>
             {

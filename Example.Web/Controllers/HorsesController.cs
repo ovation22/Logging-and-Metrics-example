@@ -44,13 +44,22 @@ namespace Example.Web.Controllers
 
         public ActionResult Detail(int id)
         {
-            var horse = _horseService.Get(id);
+            try
+            {
+                var horse = _horseService.Get(id);
 
-            var model = _horseDetailMapper.Map(horse);
+                var model = _horseDetailMapper.Map(horse);
 
-            ViewBag.Message = "Default";
+                ViewBag.Message = "Default";
 
-            return View("Detail", model);
+                return View("Detail", model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Horse not found with {id}");
+
+                throw;
+            }
         }        
     }
 }
