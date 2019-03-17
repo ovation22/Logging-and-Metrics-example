@@ -1,4 +1,5 @@
-﻿using Example.Models;
+﻿using App.Metrics;
+using Example.Models;
 using Example.Repositories;
 using Example.Repositories.Interfaces;
 using Example.Services;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Example.Web.Filters;
 
 namespace Example.Web
 {
@@ -46,12 +48,25 @@ namespace Example.Web
                 .WriteTo.Debug()
                 .CreateLogger();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+                options.Filters.Add(new MetricsResourceFilter());
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IMapper<Dto.Horse, Models.HorseSummary>), typeof(HorseToHorseSummaryMapper));
             services.AddScoped(typeof(IMapper<Dto.Horse, Models.HorseDetail>), typeof(HorseToHorseDetailMapper));
             services.AddTransient<IHorseService, HorseService>();
+
+            var metrics = AppMetrics.CreateDefaultBuilder()
+                .Report
+                .ToInfluxDb("http://127.0.0.1:8086", "Example")
+                .Build();
+
+            services.AddMetrics(metrics);
+            services.AddMetricsReportingHostedService();
+            services.AddMetricsTrackingMiddleware();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,7 +84,8 @@ namespace Example.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseDeveloperExceptionPage();
+            app.UseMetricsAllMiddleware();
+            app.UseMetricsRequestTrackingMiddleware();
 
             app.UseMvc(routes =>
             {
