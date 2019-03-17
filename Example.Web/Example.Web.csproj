@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <ApplicationInsightsResourceId>/subscriptions/8a36e719-8d9b-48c9-9feb-1241d31fe4e0/resourcegroups/Example/providers/microsoft.insights/components/Example.Web</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/8a36e719-8d9b-48c9-9feb-1241d31fe4e0/resourcegroups/Example/providers/microsoft.insights/components/Example.Web</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
 
@@ -10,6 +12,7 @@
     <PackageReference Include="App.Metrics.AspNetCore" Version="3.0.0" />
     <PackageReference Include="App.Metrics.AspNetCore.Tracking" Version="3.0.0" />
     <PackageReference Include="App.Metrics.Reporting.InfluxDB" Version="3.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
@@ -27,6 +30,11 @@
     <ProjectReference Include="..\Example.Repositories\Example.Repositories.csproj" />
     <ProjectReference Include="..\Example.Services.Interfaces\Example.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Example.Services\Example.Services.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>
