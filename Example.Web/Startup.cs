@@ -43,6 +43,9 @@ namespace Example.Web
             services.AddScoped(typeof(IMapper<Dto.Horse, Models.HorseSummary>), typeof(HorseToHorseSummaryMapper));
             services.AddScoped(typeof(IMapper<Dto.Horse, Models.HorseDetail>), typeof(HorseToHorseDetailMapper));
             services.AddTransient<IHorseService, HorseService>();
+
+            services.AddHealthChecks()
+                .AddDbContextCheck<ExampleContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +62,8 @@ namespace Example.Web
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseHealthChecks("/health");
 
             app.UseMvc(routes =>
             {
