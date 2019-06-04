@@ -38,14 +38,6 @@ namespace Example.Web
             services.AddDbContextPool<ExampleContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(Configuration)
-                .WriteTo.MSSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection"), "Logs")
-                .WriteTo.Console()
-                .WriteTo.Debug()
-                .CreateLogger();
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
