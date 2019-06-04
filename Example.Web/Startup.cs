@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Serilog.Sinks.MSSqlServer;
 
 namespace Example.Web
 {
@@ -41,7 +42,8 @@ namespace Example.Web
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
                 .WriteTo.MSSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection"), "Logs")
+                    Configuration.GetConnectionString("DefaultConnection"), "Logs",
+                    columnOptions: GetColumnOptions(), autoCreateSqlTable: true)
                 .WriteTo.Console()
                 .WriteTo.Debug()
                 .CreateLogger();
@@ -52,6 +54,14 @@ namespace Example.Web
             services.AddScoped(typeof(IMapper<Dto.Horse, Models.HorseSummary>), typeof(HorseToHorseSummaryMapper));
             services.AddScoped(typeof(IMapper<Dto.Horse, Models.HorseDetail>), typeof(HorseToHorseDetailMapper));
             services.AddTransient<IHorseService, HorseService>();
+        }
+
+        private ColumnOptions GetColumnOptions()
+        {
+            return new ColumnOptions
+            {
+                TimeStamp = { ConvertToUtc = true }
+            };
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
