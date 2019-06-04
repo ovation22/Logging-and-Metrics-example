@@ -40,6 +40,7 @@ namespace Example.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseApplicationInsights()
                 .UseConfiguration(Configuration)
                 .UseStartup<Startup>()
                 .UseSerilog();
