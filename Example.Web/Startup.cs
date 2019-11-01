@@ -5,7 +5,9 @@ using Example.Services;
 using Example.Services.Interfaces;
 using Example.Web.Interfaces;
 using Example.Web.Mappers;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,8 +46,9 @@ namespace Example.Web
             services.AddScoped(typeof(IMapper<Dto.Horse, Models.HorseDetail>), typeof(HorseToHorseDetailMapper));
             services.AddTransient<IHorseService, HorseService>();
 
+            services.AddHealthChecksUI();
             services.AddHealthChecks()
-                .AddDbContextCheck<ExampleContext>();
+                .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +66,13 @@ namespace Example.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseHealthChecks("/health");
+            app.UseHealthChecks("/health",
+                    new HealthCheckOptions
+                    {
+                        Predicate = _ => true,
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                    })
+                .UseHealthChecksUI();
 
             app.UseMvc(routes =>
             {
