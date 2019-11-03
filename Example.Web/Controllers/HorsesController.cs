@@ -29,11 +29,11 @@ namespace Example.Web.Controllers
 
         public ActionResult Index()
         {
-            _logger.LogInformation($"Getting all horses - {DateTime.UtcNow}");
+            //_logger.LogInformation($"Getting all horses - {DateTime.UtcNow}");
 
             var horses = _horseService.GetAll();
 
-            _logger.LogInformation($"Mapping all horses - {DateTime.UtcNow}");
+            //_logger.LogInformation($"Mapping all horses - {DateTime.UtcNow}");
 
             var model = horses.Select(_horseSummaryMapper.Map).ToList();
 
@@ -56,7 +56,7 @@ namespace Example.Web.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Horse not found with {id}");
+                //_logger.LogError(ex, $"Horse not found with {id}");
 
                 throw;
             }

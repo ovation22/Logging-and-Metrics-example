@@ -5,6 +5,7 @@ using Example.Services;
 using Example.Services.Interfaces;
 using Example.Web.Interfaces;
 using Example.Web.Mappers;
+using Example.Web.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 
 namespace Example.Web
 {
@@ -62,6 +62,8 @@ namespace Example.Web
             app.UseCookiePolicy();
 
             app.UseDeveloperExceptionPage();
+
+            app.UseMiddleware<SerilogMiddleware>();
 
             app.UseMvc(routes =>
             {
