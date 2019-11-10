@@ -13,7 +13,6 @@ namespace Example.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                //.UseMetricsEndpoints()
                 .UseStartup<Startup>()
                 .UseSerilog();
     }

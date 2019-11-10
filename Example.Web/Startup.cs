@@ -68,6 +68,8 @@ namespace Example.Web
             services.AddMetricsReportingHostedService();
             services.AddMetricsTrackingMiddleware();
             services.AddMetricsEndpoints();
+
+            services.AddHealth();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,6 +90,8 @@ namespace Example.Web
             app.UseMetricsAllMiddleware();
             app.UseMetricsRequestTrackingMiddleware();
             app.UseMetricsAllEndpoints();
+
+            app.UseHealthAllEndpoints();
 
             app.UseMvc(routes =>
             {
