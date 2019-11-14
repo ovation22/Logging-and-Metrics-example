@@ -5,12 +5,7 @@ namespace Example.Models
 {
     public class Horse
     {
-        public Horse()
-        {
-            SireOffspring = new HashSet<Horse>();
-            DamOffspring = new HashSet<Horse>();
-        }
-
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -35,12 +30,12 @@ namespace Example.Models
 
         public virtual Color Color { get; set; }
 
-        public virtual ICollection<Horse> SireOffspring { get; set; }
+        public virtual ICollection<Horse>? SireOffspring { get; set; }
 
-        public virtual Horse Sire { get; set; }
+        public virtual Horse? Sire { get; set; }
 
-        public virtual ICollection<Horse> DamOffspring { get; set; }
+        public virtual ICollection<Horse>? DamOffspring { get; set; }
 
-        public virtual Horse Dam { get; set; }
+        public virtual Horse? Dam { get; set; }
     }
 }

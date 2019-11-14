@@ -9,12 +9,12 @@ using Example.Web.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Example.Web.Filters;
+using Microsoft.Extensions.Hosting;
 
 namespace Example.Web
 {
@@ -52,7 +52,7 @@ namespace Example.Web
             {
                 options.EnableEndpointRouting = false;
                 options.Filters.Add(new MetricsResourceFilter());
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            });
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IMapper<Dto.Horse, Models.HorseSummary>), typeof(HorseToHorseSummaryMapper));
@@ -67,13 +67,12 @@ namespace Example.Web
             services.AddMetrics(metrics);
             services.AddMetricsReportingHostedService();
             services.AddMetricsTrackingMiddleware();
-            services.AddMetricsEndpoints();
 
             services.AddHealth();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -82,23 +81,27 @@ namespace Example.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.UseMetricsAllMiddleware();
             app.UseMetricsRequestTrackingMiddleware();
-            app.UseMetricsAllEndpoints();
 
             app.UseHealthAllEndpoints();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
         }
     }
 }
