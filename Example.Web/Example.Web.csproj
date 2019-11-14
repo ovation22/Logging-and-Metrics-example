@@ -1,27 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Nullable>enable</Nullable>
     <ApplicationInsightsResourceId>/subscriptions/8a36e719-8d9b-48c9-9feb-1241d31fe4e0/resourcegroups/Example/providers/microsoft.insights/components/Example.Web</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/8a36e719-8d9b-48c9-9feb-1241d31fe4e0/resourcegroups/Example/providers/microsoft.insights/components/Example.Web</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
     <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.1" />
     <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
-    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.0.3" />
+    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.0.4" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
-    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.1.3-dev-00236" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.1.3" />
   </ItemGroup>
-
 
   <ItemGroup>
     <ProjectReference Include="..\Example.Dto\Example.Dto.csproj" />
@@ -31,7 +27,6 @@
     <ProjectReference Include="..\Example.Services.Interfaces\Example.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Example.Services\Example.Services.csproj" />
   </ItemGroup>
-
 
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
