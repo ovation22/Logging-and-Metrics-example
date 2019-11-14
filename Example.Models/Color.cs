@@ -5,11 +5,7 @@ namespace Example.Models
 {
     public class Color
     {
-        public Color()
-        {
-            Horses = new HashSet<Horse>();
-        }
-
+        [Key]
         public byte Id { get; set; }
 
         [Required]
@@ -20,6 +16,6 @@ namespace Example.Models
         [StringLength(255)]
         public string Description { get; set; }
 
-        public virtual ICollection<Horse> Horses { get; set; }
+        public virtual ICollection<Horse>? Horses { get; set; }
     }
 }
