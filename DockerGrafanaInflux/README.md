@@ -1,4 +1,4 @@
-# Docker-compose files for MBA.Metrics
+# Docker-compose files for Metrics
 # InfluxDB + Grafana
 
 
